@@ -61,10 +61,11 @@ namespace Lab2Solution
 
                 using var con = new NpgsqlConnection(connectionString);
                 con.Open();
-                //var sql = "INSERT INTO entries VALUES ('vscodeClue', 'vscodeAnswer', 1, 'vsCodeDate', 500);";
+                
                 var sql = $"INSERT INTO entries VALUES ('{entry.Clue}','{entry.Answer}',{entry.Difficulty},'{entry.Date}',{entry.Id});";
+                    //Formatting sql ^
                 using var cmd = new NpgsqlCommand(sql, con);
-                cmd.ExecuteNonQuery();
+                cmd.ExecuteNonQuery();                          //sending query
                 con.Close();
             }
             catch (IOException ioe)
@@ -107,10 +108,10 @@ namespace Lab2Solution
                 // Write the SQL to DELETE entry from bit.io. You have its id, that should be all that you need
                 using var con = new NpgsqlConnection(connectionString);
                 con.Open();
-                //var sql = "INSERT INTO entries VALUES ('vscodeClue', 'vscodeAnswer', 1, 'vsCodeDate', 500);";
-                var sql = $"DELETE FROM entries WHERE id =  {entry.Id}";
+                
+                var sql = $"DELETE FROM entries WHERE id =  {entry.Id}"; //Formatting
                 using var cmd = new NpgsqlCommand(sql, con);
-                cmd.ExecuteNonQuery();
+                cmd.ExecuteNonQuery();                                   //Executing
                 con.Close();
 
 
@@ -144,10 +145,11 @@ namespace Lab2Solution
                         /// write the SQL to UPDATE the entry. Again, you have its id, which should be all you need.
                         using var con = new NpgsqlConnection(connectionString);
                         con.Open();
-                        //var sql = "INSERT INTO entries VALUES ('vscodeClue', 'vscodeAnswer', 1, 'vsCodeDate', 500);";
+
                         var sql = $"UPDATE entries SET answer = '{entry.Answer}', clue = '{entry.Clue}', difficulty = {entry.Difficulty}, date = '{entry.Date}' WHERE id =  {entry.Id}";
+                        //formatting ^
                         using var cmd = new NpgsqlCommand(sql, con);
-                        cmd.ExecuteNonQuery();
+                        cmd.ExecuteNonQuery();      
                         con.Close();
 
                         return true;

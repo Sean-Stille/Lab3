@@ -2,7 +2,23 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq.Expressions;
-
+/**
+ * Name: Sean Stille
+ * Description: Lab 2
+ * Date: 10/9/2022
+ * Git Repo:    https://github.com/Sean-Stille/Lab3
+ * Reflection:  I ran into some issues with this lab. The SQL portion went very smoothly, but while working on other portions I
+ *              began to experience some issues with visual studio. It began telling me that it couldn't deploy due to file permissions.
+ *              I had to redownload the lab2solution to get this issue to go away, I'm still unsure what was causing it, but I have heard other
+ *              students have had this issue. 
+ *              The sorting toggle took a bit of messing around with, I ended up changing the interfaces to incorporate additional methods.
+ *              I chose to create comparators that would resort these lists, however apparently the ObservableCollections don't utilize
+ *              comparators, so I had to convert them to lists and then back to observablecollections. Due to how getEntries() is set up,
+ *              my solution required that getEntries get called after every button press, otherwise the list would desync.
+ *              
+ * Bugs:        I'm not sure what the initial bug was, however I put try and catch blocks on the mainpage.xaml.cs button methods, this way an empty
+ *              box won't crash things. I also opted to get rid of the answer and clue placeholder text, they seemed a bit random.
+ * */
 namespace Lab2Solution
 {
 
@@ -166,6 +182,10 @@ namespace Lab2Solution
             }
         }
 
+        /**
+         * Comparator for ordering the list via clues
+         * Uses default String comparison
+         */
         class ClueSort : IComparer<Entry>
         {
             public int Compare(Entry x, Entry y)
@@ -177,6 +197,10 @@ namespace Lab2Solution
             }
         }
 
+        /**
+         * Comparator for ordering the list via answers
+         * Uses default String comparison
+         */
         class AnswerSort : IComparer<Entry>
         {
             public int Compare(Entry x, Entry y)
@@ -188,6 +212,11 @@ namespace Lab2Solution
             }
         }
 
+        /**
+         * Method that handles switching between sorts on the entry list
+         * Essentially it creates two comparators using the classes above, then identifies which is being used.
+         * After that, it switches to the other comparator.
+         */
         public ObservableCollection<Entry> ToggleSort(ObservableCollection<Entry> entries)
         {
             ClueSort clue = new ClueSort();

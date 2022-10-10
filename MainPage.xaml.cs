@@ -95,6 +95,10 @@ namespace Lab2Solution
             }
         }
         
+        /**
+         * C# code for toggle sort button, pretty much gets all entries, sends them to businesslogic to be sorted
+         * It then sets the result to be the new itemsource
+         */
         void ToggleSort(System.Object sender, System.EventArgs e)
         {
             EntriesLV.ItemsSource = MauiProgram.ibl.ToggleSort(MauiProgram.ibl.GetEntries());

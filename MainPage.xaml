@@ -69,10 +69,10 @@
                 </Grid.ColumnDefinitions>
 
                 <Label Grid.Row="0" Grid.Column="0" Text="Clue:" VerticalOptions="Center" />
-                <Entry Grid.Row="0" Grid.Column="1" Text="Ring Highlight?" Placeholder="Clue goes here" x:Name="clueENT"/>
+                <Entry Grid.Row="0" Grid.Column="1" Text="" Placeholder="Clue goes here" x:Name="clueENT"/>
 
                 <Label Grid.Row="1" Grid.Column="0" Text="Answer:" VerticalTextAlignment="Center"/>
-                <Entry Grid.Row="1" Grid.Column="1" Text="JEWEL" Placeholder="answer goes here" x:Name="answerENT"/>
+                <Entry Grid.Row="1" Grid.Column="1" Text="" Placeholder="answer goes here" x:Name="answerENT"/>
 
                 <HorizontalStackLayout Grid.Row="2" Grid.Column="0">
                     <Label Text="Difficulty:    " VerticalTextAlignment="Center"/>
