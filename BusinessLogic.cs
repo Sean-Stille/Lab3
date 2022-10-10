@@ -19,7 +19,7 @@ namespace Lab2Solution
 
         public BusinessLogic()
         {
-            db = new FlatFileDatabase(); // new RelationalDatabase();           // 
+            db = new RelationalDatabase(); // new RelationalDatabase();           // 
         }
 
 

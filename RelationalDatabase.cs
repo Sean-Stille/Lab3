@@ -54,9 +54,13 @@ namespace Lab2Solution
                 entry.Id = entries.Count + 1;
                 entries.Add(entry);
 
-                // write the SQL to INSERT entry into bit.io
-              
-
+                using var con = new NpgsqlConnection(connectionString);
+                con.Open();
+                //var sql = "INSERT INTO entries VALUES ('vscodeClue', 'vscodeAnswer', 1, 'vsCodeDate', 500);";
+                var sql = $"INSERT INTO entries VALUES ('{entry.Clue}','{entry.Answer}',{entry.Difficulty},'{entry.Date}',{entry.Id});";
+                using var cmd = new NpgsqlCommand(sql, con);
+                cmd.ExecuteNonQuery();
+                con.Close();
             }
             catch (IOException ioe)
             {
@@ -95,7 +99,13 @@ namespace Lab2Solution
 
 
                 // Write the SQL to DELETE entry from bit.io. You have its id, that should be all that you need
-
+                using var con = new NpgsqlConnection(connectionString);
+                con.Open();
+                //var sql = "INSERT INTO entries VALUES ('vscodeClue', 'vscodeAnswer', 1, 'vsCodeDate', 500);";
+                var sql = $"DELETE FROM entries WHERE id =  {entry.Id}";
+                using var cmd = new NpgsqlCommand(sql, con);
+                cmd.ExecuteNonQuery();
+                con.Close();
 
 
                 return true;
@@ -125,7 +135,14 @@ namespace Lab2Solution
 
                     try
                     {
-                       /// write the SQL to UPDATE the entry. Again, you have its id, which should be all you need.
+                        /// write the SQL to UPDATE the entry. Again, you have its id, which should be all you need.
+                        using var con = new NpgsqlConnection(connectionString);
+                        con.Open();
+                        //var sql = "INSERT INTO entries VALUES ('vscodeClue', 'vscodeAnswer', 1, 'vsCodeDate', 500);";
+                        var sql = $"UPDATE entries SET answer = '{entry.Answer}', clue = '{entry.Clue}', difficulty = {entry.Difficulty}, date = '{entry.Date}' WHERE id =  {entry.Id}";
+                        using var cmd = new NpgsqlCommand(sql, con);
+                        cmd.ExecuteNonQuery();
+                        con.Close();
 
                         return true;
                     }
@@ -168,7 +185,13 @@ namespace Lab2Solution
                     Console.Write(reader.GetName(colNum) + "=" + reader[colNum] + " ");
                 }
                 Console.Write("\n");
-                entries.Add(new Entry(reader[0] as String, reader[1] as String, (int)reader[2], reader[3] as String, (int)reader[4]));
+                String read0 = reader[0] as String;
+                String read1 = reader[1] as String;
+                int read2 = (int)reader[2];
+                String read3 = reader[3] as String;
+                int read4 = (int)reader[4];
+                entries.Add(new Entry(read0, read1, read2, read3, read4));
+                //entries.Add(new Entry(reader[0] as String, reader[1] as String, (int)reader[2], reader[3] as String, (int)reader[4]));
             }
 
             con.Close();
@@ -185,10 +208,10 @@ namespace Lab2Solution
         public String InitializeConnectionString()
         {
             var bitHost = "db.bit.io";
-            var bitApiKey = ""; // from the "Password" field of the "Connect" menu
+            var bitApiKey = "v2_3ugys_ycULnYxnDf7TZqAmW5MCQvs"; // from the "Password" field of the "Connect" menu
 
-            var bitUser = "";
-            var bitDbName = "";
+            var bitUser = "sean-s";
+            var bitDbName = "sean-s/swe";
 
             return connectionString = $"Host={bitHost};Username={bitUser};Password={bitApiKey};Database={bitDbName}";
         }
