@@ -1,10 +1,11 @@
 ﻿
+using System.Collections.Generic;
 namespace Lab2Solution
 {
 
     public partial class MainPage : ContentPage
     {
-
+        
         public MainPage()
         {
             InitializeComponent();
@@ -13,63 +14,91 @@ namespace Lab2Solution
 
         void AddEntry(System.Object sender, System.EventArgs e)
         {
-            String clue = clueENT.Text;
-            String answer = answerENT.Text;
-            String date = dateENT.Text;
-
-            int difficulty;
-            bool validDifficulty = int.TryParse(difficultyENT.Text, out difficulty);
-            if (validDifficulty)
+            try
             {
-                InvalidFieldError invalidFieldError = MauiProgram.ibl.AddEntry(clue, answer, difficulty, date);
-                if(invalidFieldError != InvalidFieldError.NoError)
+                String clue = clueENT.Text;
+                String answer = answerENT.Text;
+                String date = dateENT.Text;
+
+                int difficulty;
+                bool validDifficulty = int.TryParse(difficultyENT.Text, out difficulty);
+                if (validDifficulty)
                 {
-                    DisplayAlert("An error has occurred while adding an entry", $"{invalidFieldError}", "OK");
+                    InvalidFieldError invalidFieldError = MauiProgram.ibl.AddEntry(clue, answer, difficulty, date);
+                    EntriesLV.ItemsSource = MauiProgram.ibl.GetEntries();
+                    if (invalidFieldError != InvalidFieldError.NoError)
+                    {
+                        DisplayAlert("An error has occurred while adding an entry", $"{invalidFieldError}", "OK");
+                    }
+                }
+                else
+                {
+                    DisplayAlert("Difficulty", $"Please enter a valid number", "OK");
                 }
             }
-            else
+            catch(Exception nullException)
             {
-                DisplayAlert("Difficulty", $"Please enter a valid number", "OK");
+
             }
         }
 
         void DeleteEntry(System.Object sender, System.EventArgs e)
         {
-            Entry selectedEntry = EntriesLV.SelectedItem as Entry;
-            try {
-                EntryDeletionError entryDeletionError = MauiProgram.ibl.DeleteEntry(selectedEntry.Id);
+            try
+            {
+                Entry selectedEntry = EntriesLV.SelectedItem as Entry;
+                try
+                {
+                    EntryDeletionError entryDeletionError = MauiProgram.ibl.DeleteEntry(selectedEntry.Id);
+                    EntriesLV.ItemsSource = MauiProgram.ibl.GetEntries();
+                }
+                catch (Exception ex)
+                {
+
+                    DisplayAlert("An error has occurred while deleting an entry", ex.Message, "OK");
+                }
             }
-            catch (Exception ex)
+            catch (Exception nullException)
             {
 
-                DisplayAlert("An error has occurred while deleting an entry", ex.Message, "OK");
             }
-            
+
         }
 
         void EditEntry(System.Object sender, System.EventArgs e)
         {
-
-            Entry selectedEntry = EntriesLV.SelectedItem as Entry;
-            selectedEntry.Clue = clueENT.Text;
-            selectedEntry.Answer = answerENT.Text;
-            selectedEntry.Date = dateENT.Text;
-
-
-            int difficulty;
-            bool validDifficulty = int.TryParse(difficultyENT.Text, out difficulty);
-            if (validDifficulty)
+            try
             {
-                selectedEntry.Difficulty = difficulty;
-                Console.WriteLine($"Difficuilt is {selectedEntry.Difficulty}");
-                EntryEditError entryEditError = MauiProgram.ibl.EditEntry(selectedEntry.Clue, selectedEntry.Answer, selectedEntry.Difficulty, selectedEntry.Date, selectedEntry.Id);
-                if(entryEditError != EntryEditError.NoError)
+                Entry selectedEntry = EntriesLV.SelectedItem as Entry;
+                selectedEntry.Clue = clueENT.Text;
+                selectedEntry.Answer = answerENT.Text;
+                selectedEntry.Date = dateENT.Text;
+
+
+                int difficulty;
+                bool validDifficulty = int.TryParse(difficultyENT.Text, out difficulty);
+                if (validDifficulty)
                 {
-                    DisplayAlert("An error has occurred while editing an entry", $"{entryEditError}", "OK");
+                    selectedEntry.Difficulty = difficulty;
+                    Console.WriteLine($"Difficuilt is {selectedEntry.Difficulty}");
+                    EntryEditError entryEditError = MauiProgram.ibl.EditEntry(selectedEntry.Clue, selectedEntry.Answer, selectedEntry.Difficulty, selectedEntry.Date, selectedEntry.Id);
+                    EntriesLV.ItemsSource = MauiProgram.ibl.GetEntries();
+                    if (entryEditError != EntryEditError.NoError)
+                    {
+                        DisplayAlert("An error has occurred while editing an entry", $"{entryEditError}", "OK");
+                    }
                 }
             }
+            catch (System.NullReferenceException nullException)
+            {
 
-
+            }
+        }
+        
+        void ToggleSort(System.Object sender, System.EventArgs e)
+        {
+            EntriesLV.ItemsSource = MauiProgram.ibl.ToggleSort(MauiProgram.ibl.GetEntries());
+            
         }
 
         void EntriesLV_ItemSelected(System.Object sender, Microsoft.Maui.Controls.SelectedItemChangedEventArgs e)

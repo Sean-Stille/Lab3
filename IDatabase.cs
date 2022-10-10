@@ -10,5 +10,7 @@ namespace Lab2Solution
         Entry FindEntry(int id);
         ObservableCollection<Entry> GetEntries();
         bool EditEntry(Entry replacementEntry);
+
+        public void SetList(ObservableCollection<Entry> sortedList);
     }
 }

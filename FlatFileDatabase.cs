@@ -31,6 +31,10 @@ namespace Lab2Solution
 
         JsonSerializerOptions options;
 
+        public void SetList(ObservableCollection<Entry> sortedList)
+        {
+
+        }
         public FlatFileDatabase()
         {
             string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);

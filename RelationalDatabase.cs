@@ -28,7 +28,7 @@ namespace Lab2Solution
         /// What are the costs of that?
         /// There are always tradeoffs in software engineering.
         /// </summary>
-        ObservableCollection<Entry> entries = new ObservableCollection<Entry>();
+        public ObservableCollection<Entry> entries = new ObservableCollection<Entry>();
 
         JsonSerializerOptions options;
 
@@ -40,6 +40,11 @@ namespace Lab2Solution
         {
 
             connectionString = InitializeConnectionString();
+        }
+
+        public void SetList(ObservableCollection<Entry> sortedList)
+        {
+            entries = sortedList;
         }
 
 
@@ -84,6 +89,7 @@ namespace Lab2Solution
                 }
             }
             return null;
+            
         }
 
         /// <summary>
@@ -216,4 +222,6 @@ namespace Lab2Solution
             return connectionString = $"Host={bitHost};Username={bitUser};Password={bitApiKey};Database={bitDbName}";
         }
     }
+
+
 }
